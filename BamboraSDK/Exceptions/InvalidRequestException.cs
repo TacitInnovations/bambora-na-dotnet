@@ -36,27 +36,28 @@ using System.Net;
 /// </summary>
 namespace Bambora.NA.SDK.Exceptions
 {
-	public class InvalidRequestException : BaseApiException
-	{
-		public InvalidRequestException(HttpStatusCode statusCode, string response, string message, int category, int code)
-			: base(statusCode, response, message, category, code)
-		{ }
+    public class InvalidRequestException : BaseApiException
+    {
+        public InvalidRequestException(HttpStatusCode statusCode, string response, string message, int category, int code)
+            : base(statusCode, response, message, category, code)
+        {
+        }
 
-		new public bool IsUserError() {
-			if (Category == 1)
-				return true;
-			else if (Category == 3 && Code == 52)
-				return true;
-			else
-				return false;
-		}
+        private new bool IsUserError()
+        {
+            switch (Category)
+            {
+                case 1:
+                case 3 when Code == 52:
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
-		new public string UserFacingMessage ()
-		{
-			if (IsUserError())
-				return ResponseMessage;
-			else
-				return base.UserFacingMessage();
-		}
-	}
+        public new string UserFacingMessage()
+        {
+            return IsUserError() ? ResponseMessage : base.UserFacingMessage();
+        }
+    }
 }

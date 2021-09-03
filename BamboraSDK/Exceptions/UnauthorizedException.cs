@@ -35,10 +35,11 @@ using System.Net;
 /// </summary>
 namespace Bambora.NA.SDK.Exceptions
 {
-	public class UnauthorizedException : BaseApiException
-	{
-		public UnauthorizedException(HttpStatusCode statusCode, string response, string message, int category, int code)
-			: base(statusCode, response, message, category, code)
-		{ }
-	}
+    public class UnauthorizedException : BaseApiException
+    {
+        public UnauthorizedException(HttpStatusCode statusCode, string response, string message, int category, int code)
+            : base(statusCode, response, message, category, code)
+        {
+        }
+    }
 }

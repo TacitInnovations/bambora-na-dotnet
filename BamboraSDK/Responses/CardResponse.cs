@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
+
 using Newtonsoft.Json;
 
 namespace Bambora.NA.SDK
@@ -52,6 +52,8 @@ namespace Bambora.NA.SDK
 		[JsonProperty(PropertyName = "card_type", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
 		public string CardType { get; set; }
 
+        [JsonProperty(PropertyName = "avs", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public AvsResponse Avs { get; set; }
 	}
 }
 

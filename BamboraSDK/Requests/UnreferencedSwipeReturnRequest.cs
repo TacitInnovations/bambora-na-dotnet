@@ -20,19 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
 
 namespace Bambora.NA.SDK.Requests
 {
-	public class UnreferencedSwipeReturnRequest : ReturnRequest
-	{
-		public readonly string payment_method = PaymentMethods.swipe.ToString();
-		public bool complete { get; set; }
-		public string track2_data { get; set; }
+    public class UnreferencedSwipeReturnRequest : ReturnRequest
+    {
+        public readonly string payment_method = PaymentMethods.swipe.ToString();
 
-		public UnreferencedSwipeReturnRequest() {
-			complete = true;
-		}
-	}
+        public bool complete { get; set; }
+        public string track2_data { get; set; }
+
+        public UnreferencedSwipeReturnRequest()
+        {
+            complete = true;
+        }
+    }
 }
-

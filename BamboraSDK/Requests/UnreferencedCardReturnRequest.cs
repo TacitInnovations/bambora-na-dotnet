@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
+
 using Bambora.NA.SDK.Domain;
 
 namespace Bambora.NA.SDK.Requests
 {
-	public class UnreferencedCardReturnRequest : ReturnRequest
-	{
-		public int adjId { get; set; }
-		public readonly string payment_method = PaymentMethods.card.ToString();
-		public Card card { get; set; }
-	}
-}
+    public class UnreferencedCardReturnRequest : ReturnRequest
+    {
+        public readonly string payment_method = PaymentMethods.card.ToString();
 
+        public int adjId { get; set; }
+        public Card card { get; set; }
+    }
+}

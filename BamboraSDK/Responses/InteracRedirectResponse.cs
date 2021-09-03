@@ -20,13 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
 
 namespace Bambora.NA.SDK
 {
 	public class InteracRedirectResponse
 	{
-		public Boolean funded {get; set;}
+		public bool funded {get; set;}
 		public string idebit_track2 {get; set;}
 		public string idebit_isslang {get; set;}
 		public string idebit_version {get; set;}

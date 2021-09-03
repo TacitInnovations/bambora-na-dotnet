@@ -63,7 +63,12 @@ namespace Bambora.NA.SDK
 		[JsonProperty(PropertyName = "type")]
 		public string TransType { get; set; }
 
-		
+        [JsonProperty(PropertyName = "risk_score")]
+        public decimal RiskScore { get; set; }
+
+        [JsonProperty(PropertyName = "amount")]
+        public decimal Amount { get; set; }
+
 		[JsonProperty(PropertyName = "payment_method")]
 		public string PaymentMethod { get; set; }
 

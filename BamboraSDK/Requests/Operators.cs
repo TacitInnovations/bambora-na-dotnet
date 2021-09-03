@@ -20,36 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
 
 /// <summary>
 /// Operators used for querying transactions using the Reporting API.
 /// </summary>
+
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 
 namespace Bambora.NA.SDK
 {
-	public enum Operators
-	{
-		[Description("%3D")]
-		Equals, 
+    public enum Operators
+    {
+        [Description("%3D")]
+        Equals,
 
-		[Description("%3C")]
-		LessThan, 
+        [Description("%3C")]
+        LessThan,
 
-		[Description("%3E")]
-		GreaterThan,
+        [Description("%3E")]
+        GreaterThan,
 
-		[Description("%3C%3D")]
-		LessThanEqual, 
+        [Description("%3C%3D")]
+        LessThanEqual,
 
-		[Description("%3e%3D")]
-		GreaterThanEqual,
+        [Description("%3e%3D")]
+        GreaterThanEqual,
 
-		[Description("START%20WITH")]
-		StartWith
-	}
+        [Description("START%20WITH")]
+        StartWith
+    }
 }
-

@@ -20,43 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+
 using System;
 
 namespace Bambora.NA.SDK.Requests
 {
-	public class RequestObject
-	{
-		private readonly HttpMethod _method;
-		private readonly String _url;
-		private readonly Credentials _credentials;
-		private readonly object _data;
+    public class RequestObject
+    {
+        public RequestObject(HttpMethod method, string url, Credentials credentials, object data)
+            : this(method, url, credentials, null, data)
+        {
+        }
 
-		public RequestObject(HttpMethod method, string url, Credentials credentials, object data)
-		{
-			_method = method;
-			_url = url;
-			_data = data;
-			_credentials = credentials;
-		}
+        public RequestObject(HttpMethod method, string url, Credentials credentials, string subMerchantId, object data)
+        {
+            Method = method;
+            Url = new Uri(url);
+            Credentials = credentials;
+            SubMerchantId = subMerchantId;
+            Data = data;
+        }
 
-		public object Data
-		{
-			get { return _data; }
-		}
-
-		public HttpMethod Method
-		{
-			get { return _method; }
-		}
-
-		public Uri Url
-		{
-			get { return new Uri(_url); }
-		}
-
-		public Credentials Credentials
-		{
-			get { return _credentials; }
-		}
-	}
+        public object Data { get; }
+        
+        public HttpMethod Method { get; }
+        
+        public Uri Url { get; }
+        
+        public Credentials Credentials { get; }
+        
+        public string SubMerchantId { get; }
+    }
 }

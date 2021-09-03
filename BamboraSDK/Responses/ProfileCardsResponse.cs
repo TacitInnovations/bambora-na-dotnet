@@ -20,8 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
-using Bambora.NA.SDK;
+
 using System.Collections.Generic;
 using Bambora.NA.SDK.Domain;
 using Newtonsoft.Json;

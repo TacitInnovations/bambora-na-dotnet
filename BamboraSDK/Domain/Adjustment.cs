@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+
 using System;
 using Newtonsoft.Json;
 
@@ -28,28 +29,27 @@ using Newtonsoft.Json;
 /// </summary>
 namespace Bambora.NA.SDK
 {
-	public class Adjustment
-	{
-		[JsonProperty(PropertyName = "id")]
-		public string Id { get; set; }
+    public class Adjustment
+    {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
-		[JsonProperty(PropertyName = "type")]
-		public string Type { get; set; }
+        [JsonProperty(PropertyName = "type")] 
+        public string Type { get; set; }
 
-		[JsonProperty(PropertyName = "approval")]
-		public string Approval { get; set; }
+        [JsonProperty(PropertyName = "approval")]
+        public string Approval { get; set; }
 
-		[JsonProperty(PropertyName = "message")]
-		public string Message { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
 
-		[JsonProperty(PropertyName = "amount")]
-		public string Amount { get; set; }
+        [JsonProperty(PropertyName = "amount")]
+        public string Amount { get; set; }
 
-		[JsonProperty(PropertyName = "created")]
-		public DateTime Created { get; set; }
+        [JsonProperty(PropertyName = "created")]
+        public DateTime Created { get; set; }
 
-		[JsonProperty(PropertyName = "url")]
-		public string Url { get; set; }
-	}
+        [JsonProperty(PropertyName = "url")] 
+        public string Url { get; set; }
+    }
 }
-

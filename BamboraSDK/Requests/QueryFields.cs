@@ -20,40 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
+
 
 /// <summary>
 /// The fields we can query in the search criteria. Order matters in this enum so do not change it.
 /// Each field has a comment with what operators can be used with it.
 /// </summary>
+
 namespace Bambora.NA.SDK
 {
-	public enum QueryFields
-	{
-		TransactionId, 		// >=,<=,=,<>,>,<
-		Amount, 			// >=,<=,=,<>,>,<
-		MaskedCardNumber, 	// =
-		CardOwner, 			// =,START WITH
-		OrderNumber, 		// >=,<=,=,<>,>,<
-		IPAddress, 			// =,START WITH
-		AuthorizationCode, 	// =,START WITH
-		TransType, 			// =
-		CardType, 			// =
-		Response, 			// =
-		BillingName, 		// =,START WITH
-		BillingEmail, 		// =,START WITH
-		BillingPhone, 		// =,START WITH
-		ProcessedBy, 		// =
-		Ref1, 				// =,START WITH
-		Ref2, 				// =,START WITH
-		Ref3, 				// =,START WITH
-		Ref4, 				// =,START WITH
-		Ref5, 				// =,START WITH
-		ProductName, 		// =,START WITH
-		ProductID, 			// =,START WITH
-		CustCode, 			// =,START WITH
-		IDAdjustmentTo, 	// =
-		IDAdjustedBy 		// =
-	}
+    public enum QueryFields
+    {
+        TransactionId, // >=,<=,=,<>,>,<
+        Amount, // >=,<=,=,<>,>,<
+        MaskedCardNumber, // =
+        CardOwner, // =,START WITH
+        OrderNumber, // >=,<=,=,<>,>,<
+        IPAddress, // =,START WITH
+        AuthorizationCode, // =,START WITH
+        TransType, // =
+        CardType, // =
+        Response, // =
+        BillingName, // =,START WITH
+        BillingEmail, // =,START WITH
+        BillingPhone, // =,START WITH
+        ProcessedBy, // =
+        Ref1, // =,START WITH
+        Ref2, // =,START WITH
+        Ref3, // =,START WITH
+        Ref4, // =,START WITH
+        Ref5, // =,START WITH
+        ProductName, // =,START WITH
+        ProductID, // =,START WITH
+        CustCode, // =,START WITH
+        IDAdjustmentTo, // =
+        IDAdjustedBy // =
+    }
 }
-

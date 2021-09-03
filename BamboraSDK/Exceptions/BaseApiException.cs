@@ -50,63 +50,46 @@ using System.Net;
 /// </summary>
 namespace Bambora.NA.SDK.Exceptions
 {
-	public abstract class BaseApiException : Exception
-	{
-		private readonly string _response;
-		private readonly string _message;
-		private readonly HttpStatusCode _statusCode;
-		private readonly int _category;
-		private readonly int _code;
+    public abstract class BaseApiException : Exception
+    {
+        protected BaseApiException(HttpStatusCode statusCode, string response, string message, int category, int code)
+            : base(statusCode + ", category: " + category + ", code: " + code + ":    " + message)
+        {
+            Response = response;
+            ResponseMessage = message;
+            StatusCode = (int)statusCode;
+            Category = category;
+            Code = code;
+        }
 
-		protected BaseApiException(HttpStatusCode statusCode, string response, string message, int category, int code)
-			:base (statusCode.ToString()+", category: "+category+", code: "+code+":    "+message)
-		{
-			_response = response;
-			_message = message;
-			_statusCode =  statusCode;
-			_category = category;
-			_code = code;
-		}
+        public string Response { get; }
 
-		public string Response
-		{
-			get { return _response; }
-		}
+        public int StatusCode { get; }
 
-		public int StatusCode
-		{
-			get { return (int) _statusCode; }
-		}
+        public int Category { get; }
 
-		public int Category {
-			get { return _category; }
-		}
+        public int Code { get; }
 
-		public int Code {
-			get { return _code; }
-		}
+        public string ResponseMessage { get; }
 
-		public string ResponseMessage {
-			get {return _message;}
-		}
-
-		/**
+        /**
 		 * If this exception was cause by user input ie. invalid card number or declines.
 		 * Returns false for all other errors that were not caused by user input, such
 		 * as network timeouts, message formatting, etc.
 		 */
-		public bool IsUserError() {
-			return false;
-		}
+        public bool IsUserError()
+        {
+            return false;
+        }
 
-		/**
+        /**
 		 * Most exceptions should not be shown in detail to the user. Only some API exception
 		 * sublcasses will provide detailed error messages. If you so decide to display the error
 		 * message details, you can call exception.Message().
 		 */
-		public string UserFacingMessage ()
-		{
-			return "There was an error processing your request. Please try again or use a different card.";
-		}
-	}
+        public string UserFacingMessage()
+        {
+            return "There was an error processing your request. Please try again or use a different card.";
+        }
+    }
 }

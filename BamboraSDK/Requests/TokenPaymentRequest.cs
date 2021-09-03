@@ -20,28 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System;
-using Bambora.NA.SDK.Requests;
 
 /// <summary>
 /// Token payments use a token generated from Bambora's Legato Javascript utility.
 /// The token is a unique one-time-use reference to the user's credit card information.
 /// 
 /// </summary>
+
 using Newtonsoft.Json;
 using Bambora.NA.SDK.Domain;
 
 
 namespace Bambora.NA.SDK.Requests
 {
-	public class TokenPaymentRequest : PaymentRequest
-	{
-		[JsonProperty(PropertyName = "token")]
-		public Token Token { get; set; }
+    public class TokenPaymentRequest : PaymentRequest
+    {
+        [JsonProperty(PropertyName = "token")] 
+        public Token Token { get; set; }
 
-		public TokenPaymentRequest() {
-			PaymentMethod = PaymentMethods.token.ToString ();
-		}
-	}
+        public TokenPaymentRequest()
+        {
+            PaymentMethod = PaymentMethods.token.ToString();
+        }
+    }
 }
-

@@ -22,8 +22,6 @@
 //
 
 using Bambora.NA.SDK.Data;
-using Bambora.NA.SDK;
-using Bambora.NA.SDK.Requests;
 
 /// <summary>
 /// The entry-point into making payments and handling payment profiles.
@@ -43,129 +41,140 @@ using Bambora.NA.SDK.Requests;
 /// </summary>
 namespace Bambora.NA.SDK
 {
-	public class Gateway
-	{
-		/// <summary>
-		/// The Bambora merchant ID 
-		/// </summary>
-		public int MerchantId { get; set; }
+    public class Gateway
+    {
+        /// <summary>
+        /// The Beanstream merchant ID 
+        /// </summary>
+        public int MerchantId
+        {
+            get => Configuration.MerchantId;
+            set => Configuration.MerchantId = value;
+        }
 
-		/// <summary>
-		/// The API Key (Passcode) for accessing the payments API.
-		/// </summary>
-		public string PaymentsApiKey { 
-			set 
-			{ 
-				Configuration.PaymentsApiPasscode = value;
-			}
-			get {
-				return Configuration.PaymentsApiPasscode;
-			}
-		}
+        /// <summary>
+        ///  Only used by partners to make an API call on behalf of their subMerchant.
+        /// </summary>
+        public int? SubMerchantId
+        {
+            get => Configuration.SubMerchantId;
+            set => Configuration.SubMerchantId = value;
+        }
 
-		/// <summary>
-		/// The API Key (Passcode) for accessing the reporting API.
-		/// </summary>
-		public string ReportingApiKey { 
-			set 
-			{ 
-				Configuration.ReportingApiPasscode = value;
-			}
-			get {
-				return Configuration.ReportingApiPasscode;
-			}
-		}
+        /// <summary>
+        /// The API Key (Passcode) for accessing the payments API.
+        /// </summary>
+        public string PaymentsApiKey
+        {
+            set => Configuration.PaymentsApiPasscode = value;
+            get => Configuration.PaymentsApiPasscode;
+        }
 
-		/// <summary>
-		/// The API Key (Passcode) for accessing the profiles API.
-		/// </summary>
-		public string ProfilesApiKey { 
-			set { 
-				Configuration.ProfilesApiPasscode = value;
-			}
-			get {
-				return Configuration.ProfilesApiPasscode;
-			}
-		}
+        /// <summary>
+        /// The API Key (Passcode) for accessing the reporting API.
+        /// </summary>
+        public string ReportingApiKey
+        {
+            set => Configuration.ReportingApiPasscode = value;
+            get => Configuration.ReportingApiPasscode;
+        }
 
-		/// <summary>
-		/// The api version to use
-		/// </summary>
-		public string ApiVersion { get; set; }
+        /// <summary>
+        /// The API Key (Passcode) for accessing the profiles API.
+        /// </summary>
+        public string ProfilesApiKey
+        {
+            set => Configuration.ProfilesApiPasscode = value;
+            get => Configuration.ProfilesApiPasscode;
+        }
 
+        /// <summary>
+        /// The api version to use
+        /// </summary>
+        public string ApiVersion
+        {
+            get => Configuration.Version;
+            set => Configuration.Version = value;
+        }
 
-		private Configuration _configuration { get; set; }
+        private Configuration _configuration;
 
-		public Configuration Configuration {
-			get {
-				if (_configuration == null) {
-					_configuration = new Configuration ();
-					_configuration.MerchantId = this.MerchantId;
-					_configuration.PaymentsApiPasscode = PaymentsApiKey;
-					_configuration.ReportingApiPasscode = ReportingApiKey;
-					_configuration.ProfilesApiPasscode = ProfilesApiKey;
-					_configuration.Version = ApiVersion;
-				}
-				return _configuration;
-			}
-		}
+        public Configuration Configuration => _configuration ?? (_configuration = new Configuration());
 
-		public IWebCommandExecuter WebCommandExecuter { get; set; }
+        public IWebCommandExecuter WebCommandExecuter { get; set; }
 
-		private PaymentsAPI _payments;
+        private PaymentsAPI _payments;
 
-		public PaymentsAPI Payments 
-		{ 
-			get { 
-				if (_payments == null)
-					_payments = new PaymentsAPI ();
-				_payments.Configuration = Configuration;
-				if (WebCommandExecuter != null)
-					_payments.WebCommandExecuter = WebCommandExecuter;
-				return _payments;
-			} 
-		}
+        public PaymentsAPI Payments
+        {
+            get
+            {
+                if (_payments == null)
+                {
+                    _payments = new PaymentsAPI();
+                }
 
+                _payments.Configuration = Configuration;
+                if (WebCommandExecuter != null)
+                {
+                    _payments.WebCommandExecuter = WebCommandExecuter;
+                }
 
-		private ReportingAPI _reporting;
-
-		public ReportingAPI Reporting 
-		{ 
-			get { 
-				if (_reporting == null)
-					_reporting = new ReportingAPI ();
-				_reporting.Configuration = Configuration;
-				if (WebCommandExecuter != null)
-					_reporting.WebCommandExecuter = WebCommandExecuter;
-				return _reporting;
-			} 
-		}
+                return _payments;
+            }
+        }
 
 
+        private ReportingAPI _reporting;
 
-		private ProfilesAPI _profiles;
+        public ReportingAPI Reporting
+        {
+            get
+            {
+                if (_reporting == null)
+                {
+                    _reporting = new ReportingAPI();
+                }
 
-		public ProfilesAPI Profiles 
-		{ 
-			get { 
-				if (_profiles == null)
-					_profiles = new ProfilesAPI ();
-				_profiles.Configuration = Configuration;
-				if (WebCommandExecuter != null)
-					_profiles.WebCommandExecuter = WebCommandExecuter;
-				return _profiles;
-			} 
-		}
+                _reporting.Configuration = Configuration;
+                if (WebCommandExecuter != null)
+                {
+                    _reporting.WebCommandExecuter = WebCommandExecuter;
+                }
+
+                return _reporting;
+            }
+        }
 
 
+        private ProfilesAPI _profiles;
 
-		public static void ThrowIfNullArgument(object value, string name)
-		{
-			if (value == null)
-			{
-				throw new System.ArgumentNullException(name);
-			}
-		}
-	}
+        public ProfilesAPI Profiles
+        {
+            get
+            {
+                if (_profiles == null)
+                {
+                    _profiles = new ProfilesAPI();
+                }
 
+                _profiles.Configuration = Configuration;
+                if (WebCommandExecuter != null)
+                {
+                    _profiles.WebCommandExecuter = WebCommandExecuter;
+                }
+
+                return _profiles;
+            }
+        }
+
+
+        public static void ThrowIfNullArgument(object value, string name)
+        {
+            if (value == null)
+            {
+                throw new System.ArgumentNullException(name);
+            }
+        }
+    }
 }
