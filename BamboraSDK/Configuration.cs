@@ -22,30 +22,29 @@
 //
 
 
-
 /// <summary>
 /// Holds the account configuration for the merchant.
 /// 
 /// At the minimum to use the Payments API you need to supply a MerchantID and
 /// an ApiPasscode.
 /// </summary>
+
 namespace Bambora.NA.SDK
 {
-	public class Configuration
-	{
-		public int MerchantId { get; set;}
-		public int? SubMerchantId { get; set;}
-		public string PaymentsApiPasscode { get; set;}
-		public string ReportingApiPasscode { get; set;}
-		public string ProfilesApiPasscode { get; set;}
-		public string Version { get; set;}
-		public string Platform { get; set; }
+    public class Configuration
+    {
+        public int MerchantId { get; set; }
+        public int? SubMerchantId { get; set; }
+        public string PaymentsApiPasscode { get; set; }
+        public string ReportingApiPasscode { get; set; }
+        public string ProfilesApiPasscode { get; set; }
+        public string Version { get; set; }
+        public string Platform { get; set; }
 
-		public Configuration ()
-		{
-			Platform = "www";
-			Version = "1";
-		}
-	}
+        public Configuration()
+        {
+            Platform = "api.na";
+            Version = "1";
+        }
+    }
 }
-

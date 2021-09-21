@@ -91,7 +91,6 @@ namespace Bambora.NA.SDK
             var req = CreateWebRequest();
 
             var response = req.ProcessTransaction(HttpMethod.Post, url, paymentRequest);
-
             return JsonConvert.DeserializeObject<PaymentResponse>(response);
         }
 
@@ -215,6 +214,7 @@ namespace Bambora.NA.SDK
         public PaymentResponse PreAuth(CardPaymentRequest paymentRequest)
         {
             Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.Card, "paymentRequest.Card");
 
             paymentRequest.Card.Complete = false; // false to make it a pre-auth
 
@@ -234,6 +234,7 @@ namespace Bambora.NA.SDK
         public PaymentResponse PreAuth(TokenPaymentRequest paymentRequest)
         {
             Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.Token, "paymentRequest.Token");
 
             paymentRequest.Token.Complete = false;
 
@@ -253,8 +254,36 @@ namespace Bambora.NA.SDK
         public PaymentResponse PreAuth(ProfilePaymentRequest paymentRequest)
         {
             Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.PaymentProfile, "paymentRequest.PaymentProfile");
 
             paymentRequest.PaymentProfile.Complete = false;
+
+            return PreAuthInternal(paymentRequest);
+        }
+
+        public PaymentResponse PreAuth(AndroidPayRequest paymentRequest)
+        {
+            Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.AndroidPay, "paymentRequest.AndroidPay");
+
+            paymentRequest.AndroidPay.Complete = false;
+
+            return PreAuthInternal(paymentRequest);
+        }
+
+        public PaymentResponse PreAuth(ApplePayRequest paymentRequest)
+        {
+            Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.ApplePay, "paymentRequest.ApplePay");
+
+            paymentRequest.ApplePay.Complete = false;
+
+            return PreAuthInternal(paymentRequest);
+        }
+
+        public PaymentResponse PreAuth(PaymentRequest paymentRequest)
+        {
+            Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
 
             return PreAuthInternal(paymentRequest);
         }

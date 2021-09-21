@@ -72,7 +72,7 @@ namespace Bambora.NA.SDK.Requests
         {
             try
             {
-                var authScheme = "Passcode";
+                const string authScheme = "Passcode";
 
                 Credentials authInfo = null;
                 // this request might not be using authorization
@@ -81,7 +81,7 @@ namespace Bambora.NA.SDK.Requests
                     authInfo = new Credentials(_merchantId, _passcode, authScheme);
                 }
 
-                var requestInfo = new RequestObject(method, url, authInfo, data);
+                var requestInfo = new RequestObject(method, url, authInfo, _subMerchantId, data);
 
                 var command = new ExecuteWebRequest(requestInfo);
                 var result = _executer.ExecuteCommand(command);

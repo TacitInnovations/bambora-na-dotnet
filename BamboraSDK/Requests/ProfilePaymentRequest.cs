@@ -35,7 +35,6 @@ namespace Bambora.NA.SDK.Requests
         [JsonProperty(PropertyName = "payment_profile")]
         public PaymentProfileField PaymentProfile { get; set; }
 
-
         public ProfilePaymentRequest()
         {
             PaymentMethod = PaymentMethods.payment_profile.ToString();

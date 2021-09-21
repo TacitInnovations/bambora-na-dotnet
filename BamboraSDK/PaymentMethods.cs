@@ -36,7 +36,9 @@ namespace Bambora.NA.SDK
 		interac,
 		cash,
 		cheque,
-		payment_profile
+		payment_profile,
+		android_pay,
+		apple_pay,
 	}
 }
 
