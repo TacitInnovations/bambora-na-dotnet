@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Bambora.NA.SDK.Domain;
+using Newtonsoft.Json;
 
 namespace Bambora.NA.SDK.Requests
 {
@@ -6,7 +7,7 @@ namespace Bambora.NA.SDK.Requests
     {
         public AndroidPayRequest()
         {
-            PaymentMethod = PaymentMethods.android_pay.ToString();
+            PaymentMethod = PaymentMethods.AndroidPay;
         }
         
         [JsonProperty(PropertyName = "android_pay")] 

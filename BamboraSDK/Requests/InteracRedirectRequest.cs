@@ -21,12 +21,21 @@
 // THE SOFTWARE.
 //
 
+using Newtonsoft.Json;
+
 namespace Bambora.NA.SDK.Requests
 {
     public class InteracRedirectRequest
     {
-        public readonly string payment_method = PaymentMethods.interac.ToString();
+        public InteracRedirectRequest()
+        {
+            PaymentMethod = PaymentMethods.Interac;
+        }
 
-        public InteracRedirectResponse interac_response { get; set; }
+        [JsonProperty(PropertyName = "payment_method")]
+        public PaymentMethods PaymentMethod { get; set; }
+
+        [JsonProperty(PropertyName = "interac_response")]
+        public InteracRedirectResponse InteracResponse { get; set; }
     }
 }

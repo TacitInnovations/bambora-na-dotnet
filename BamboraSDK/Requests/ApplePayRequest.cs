@@ -1,3 +1,4 @@
+using Bambora.NA.SDK.Domain;
 using Newtonsoft.Json;
 
 namespace Bambora.NA.SDK.Requests
@@ -6,7 +7,7 @@ namespace Bambora.NA.SDK.Requests
     {
         public ApplePayRequest()
         {
-            PaymentMethod = PaymentMethods.apple_pay.ToString();
+            PaymentMethod = PaymentMethods.ApplePay;
         }
         
         [JsonProperty(PropertyName = "apple_pay")] 

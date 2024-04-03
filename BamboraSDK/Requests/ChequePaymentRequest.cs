@@ -35,7 +35,7 @@ namespace Bambora.NA.SDK.Requests
     {
         public ChequePaymentRequest()
         {
-            PaymentMethod = PaymentMethods.cheque.ToString();
+            PaymentMethod = PaymentMethods.Cheque;
         }
     }
 }

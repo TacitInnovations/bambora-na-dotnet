@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 //
 
-using System;
 using Bambora.NA.SDK.Requests;
 using Newtonsoft.Json;
 using Bambora.NA.SDK.Data;
@@ -355,6 +354,40 @@ namespace Bambora.NA.SDK
 
             var response = req.ProcessTransaction(HttpMethod.Post, url, paymentRequest);
             return JsonConvert.DeserializeObject<PaymentResponse>(response);
+        }
+
+        public CardAuthResponse CardAuthRequest(CardAuthRequestData request)
+        {
+            var url = BamboraUrls.CardAuthRequestUrl
+                .Replace("{v}", string.IsNullOrEmpty(_configuration.Version) ? "v1" : "v" + _configuration.Version)
+                .Replace("{p}", string.IsNullOrEmpty(_configuration.Platform) ? "www" : _configuration.Platform);
+
+            var req = CreateWebRequest();
+            var response = req.ProcessTransaction(HttpMethod.Post, url, request);
+            return JsonConvert.DeserializeObject<CardAuthResponse>(response);
+        }
+
+        public CardAuthResponse CardAuthResponse(CardAuthResponseData request)
+        {
+            var url = BamboraUrls.CardAuthResponseUrl
+                .Replace("{v}", string.IsNullOrEmpty(_configuration.Version) ? "v1" : "v" + _configuration.Version)
+                .Replace("{p}", string.IsNullOrEmpty(_configuration.Platform) ? "www" : _configuration.Platform);
+
+            var req = CreateWebRequest();
+            var response = req.ProcessTransaction(HttpMethod.Post, url, request);
+            return JsonConvert.DeserializeObject<CardAuthResponse>(response);
+        }
+
+        public CardAuthDataResponse GetCardAuthData(string sessionData)
+        {
+            var url = BamboraUrls.CardAuthDataUrl
+                .Replace("{v}", string.IsNullOrEmpty(_configuration.Version) ? "v1" : "v" + _configuration.Version)
+                .Replace("{p}", string.IsNullOrEmpty(_configuration.Platform) ? "www" : _configuration.Platform)
+                .Replace("{sd}", sessionData);
+
+            var req = CreateWebRequest();
+            var response = req.ProcessTransaction(HttpMethod.Get, url);
+            return JsonConvert.DeserializeObject<CardAuthDataResponse>(response);
         }
 
         private HttpsWebRequest CreateWebRequest()

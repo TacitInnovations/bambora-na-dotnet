@@ -21,18 +21,34 @@
 // THE SOFTWARE.
 //
 
+using Newtonsoft.Json;
+
 namespace Bambora.NA.SDK
 {
-	public class InteracRedirectResponse
-	{
-		public bool funded {get; set;}
-		public string idebit_track2 {get; set;}
-		public string idebit_isslang {get; set;}
-		public string idebit_version {get; set;}
-		public string idebit_issconf {get; set;}
-		public string idebit_issname {get; set;}
-		public string idebit_amount {get; set;}
-		public string idebit_invoice {get; set;}
-	}
-}
+    public class InteracRedirectResponse
+    {
+        [JsonProperty(PropertyName = "funded")]
+        public bool Funded { get; set; }
 
+        [JsonProperty(PropertyName = "idebit_track2")]
+        public string IdebitTrack2 { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_isslang")]
+        public string IdebitIsslang { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_version")]
+        public string IdebitVersion { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_issconf")]
+        public string IdebitIssconf { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_issname")]
+        public string IdebitIssname { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_amount")]
+        public string IdebitAmount { get; set; }
+
+        [JsonProperty(PropertyName = "idebit_invoice")]
+        public string IdebitInvoice { get; set; }
+    }
+}

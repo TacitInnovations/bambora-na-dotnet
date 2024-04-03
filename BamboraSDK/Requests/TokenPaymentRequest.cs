@@ -40,7 +40,7 @@ namespace Bambora.NA.SDK.Requests
 
         public TokenPaymentRequest()
         {
-            PaymentMethod = PaymentMethods.token.ToString();
+            PaymentMethod = PaymentMethods.Token;
         }
     }
 }

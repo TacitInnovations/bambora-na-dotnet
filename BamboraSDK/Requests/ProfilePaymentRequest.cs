@@ -37,7 +37,7 @@ namespace Bambora.NA.SDK.Requests
 
         public ProfilePaymentRequest()
         {
-            PaymentMethod = PaymentMethods.payment_profile.ToString();
+            PaymentMethod = PaymentMethods.PaymentProfile;
         }
     }
 }

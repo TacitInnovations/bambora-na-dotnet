@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Bambora.NA.SDK
+namespace Bambora.NA.SDK.Domain
 {
     public class AndroidPayField
     {

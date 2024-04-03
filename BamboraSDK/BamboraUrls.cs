@@ -25,18 +25,23 @@ namespace Bambora.NA.SDK
 {
     public class BamboraUrls
     {
-        public static string BaseUrl => "https://{p}.bambora.com/{v}";
-        public static string BasePaymentsUrl => BaseUrl + "/payments";
-        public static string BaseProfilesUrl => BaseUrl + "/profiles";
+        public static string BaseUrl => "https://{p}.bambora.com";
+        public static string BaseUrlVersion => BaseUrl + "/{v}";
+        public static string BasePaymentsUrl => BaseUrlVersion + "/payments";
+        public static string BaseProfilesUrl => BaseUrlVersion + "/profiles";
         public static string ProfileUrl => BaseProfilesUrl + "/{pid}";
         public static string PreAuthCompletionsUrl => BasePaymentsUrl + "/{id}/completions";
         public static string ReturnsUrl => BasePaymentsUrl + "/{id}/returns";
         public static string VoidsUrl => BasePaymentsUrl + "/{id}/void";
         public static string GetPaymentUrl => BasePaymentsUrl + "/{id}";
         public static string ContinuationsUrl => BasePaymentsUrl + "/{md}/continue";
-        public static string ReportsUrl => BaseUrl + "/reports";
+        public static string ReportsUrl => BaseUrlVersion + "/reports";
         public static string CardsUrl => ProfileUrl + "/cards";
         public static string CardUrl => CardsUrl + "/{cid}";
         public static string TokenUrl => BaseUrl + "/scripts/tokenization/tokens";
+        public static string BaseCardAuthUrl => BaseUrlVersion + "/EMV3DS";
+        public static string CardAuthRequestUrl => BaseCardAuthUrl + "/AuthRequest";
+        public static string CardAuthResponseUrl => BaseCardAuthUrl + "/AuthResponse";
+        public static string CardAuthDataUrl => BaseCardAuthUrl + "/{sd}";
     }
 }

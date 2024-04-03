@@ -21,18 +21,25 @@
 // THE SOFTWARE.
 //
 
+using Newtonsoft.Json;
+
 namespace Bambora.NA.SDK.Requests
 {
     public class UnreferencedSwipeReturnRequest : ReturnRequest
     {
-        public readonly string payment_method = PaymentMethods.swipe.ToString();
-
-        public bool complete { get; set; }
-        public string track2_data { get; set; }
-
         public UnreferencedSwipeReturnRequest()
         {
-            complete = true;
+            PaymentMethod = PaymentMethods.Swipe;
+            Complete = true;
         }
+
+        [JsonProperty(PropertyName = "payment_method")]
+        public PaymentMethods PaymentMethod { get; set; }
+
+        [JsonProperty(PropertyName = "complete")]
+        public bool Complete { get; set; }
+
+        [JsonProperty(PropertyName = "track2_data")]
+        public string Track2Data { get; set; }
     }
 }

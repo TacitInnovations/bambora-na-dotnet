@@ -35,7 +35,7 @@ namespace Bambora.NA.SDK.Requests
     {
         public CashPaymentRequest()
         {
-            PaymentMethod = PaymentMethods.cash.ToString();
+            PaymentMethod = PaymentMethods.Cash;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Bambora.NA.SDK.Requests
         /// This is set automatically by the PaymentsAPI class. You do not need to set it.
         /// </summary>
         [JsonProperty(PropertyName = "payment_method")]
-        public string PaymentMethod { get; set; }
+        public PaymentMethods PaymentMethod { get; set; }
 
         /// <summary>
         /// Include a unique order reference number. 30 alphanumeric (a/n) characters.

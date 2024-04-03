@@ -22,23 +22,27 @@
 //
 
 
-
 /// <summary>
 /// The types of payments you can make
 /// </summary>
+
+using System.ComponentModel;
+using Newtonsoft.Json;
+
 namespace Bambora.NA.SDK
 {
-	public enum PaymentMethods
-	{
-		card,
-		token,
-		swipe,
-		interac,
-		cash,
-		cheque,
-		payment_profile,
-		android_pay,
-		apple_pay,
-	}
+    [JsonConverter(typeof(PaymentMethodsStringEnumConverter))]
+    public enum PaymentMethods
+    {
+        [Description("card")] Card,
+        [Description("token")] Token,
+        [Description("swipe")] Swipe,
+        [Description("interac")] Interac,
+        [Description("cash")] Cash,
+        [Description("cheque")] Cheque,
+        [Description("payment_profile")] PaymentProfile,
+        [Description("android_pay")] AndroidPay,
+        [Description("apple_pay")] ApplePay,
+        [Description("3d_secure_token")] ThreeDSToken,
+    }
 }
-
