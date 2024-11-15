@@ -21,9 +21,11 @@
 // THE SOFTWARE.
 //
 
+using System.Threading.Tasks;
+
 namespace Bambora.NA.SDK.Data
 {
-    public interface IWebCommandExecuter
+    public interface IWebCommandExecutor
     {
         /// <summary>
         /// Executes the command defined by the specified <paramref name="spec"/>.

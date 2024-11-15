@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net461</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <Company>Bambora (North America), Inc.</Company>
     <Copyright>Copyright © Bambora (North America), Inc.</Copyright>
     <AssemblyVersion>2.1.1.0</AssemblyVersion>
@@ -11,7 +11,6 @@
     <PackageTags>Bambora, Bambora SDK</PackageTags>
     <Authors>Bambora (North America), Inc.</Authors>
     <PackageProjectUrl>https://github.com/bambora-na/bambora-na-dotnet</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
@@ -35,10 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

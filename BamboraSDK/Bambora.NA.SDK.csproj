@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <Company>Bambora (North America), Inc.</Company>
     <Copyright>Copyright © Bambora (North America), Inc.</Copyright>
     <AssemblyVersion>2.1.1.0</AssemblyVersion>
@@ -11,7 +11,6 @@
     <PackageTags>Bambora, Bambora SDK</PackageTags>
     <Authors>Bambora (North America), Inc.</Authors>
     <PackageProjectUrl>https://github.com/bambora-na/bambora-na-dotnet</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
     <PackageLicense>https://github.com/bambora-na/bambora-na-dotnet/blob/master/LICENSE</PackageLicense>
     <Version>2.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -24,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
 </Project>

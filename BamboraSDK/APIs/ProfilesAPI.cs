@@ -24,6 +24,7 @@
 using Bambora.NA.SDK.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using Bambora.NA.SDK.Domain;
 using Bambora.NA.SDK.Requests;
 using Newtonsoft.Json;
@@ -40,16 +41,16 @@ namespace Bambora.NA.SDK
     public class ProfilesAPI
     {
         private Configuration _configuration;
-        private IWebCommandExecuter _webCommandExecuter = new WebCommandExecuter();
+        private IWebCommandExecutor _webCommandExecutor = new WebCommandExecutor();
 
         public Configuration Configuration
         {
             set => _configuration = value;
         }
 
-        public IWebCommandExecuter WebCommandExecuter
+        public IWebCommandExecutor WebCommandExecutor
         {
-            set => _webCommandExecuter = value;
+            set => _webCommandExecutor = value;
         }
 
         public LegatoTokenResponse CreateToken(LegatoTokenRequest tokenRequest)
@@ -388,7 +389,7 @@ namespace Bambora.NA.SDK
                 MerchantId = _configuration.MerchantId,
                 SubMerchantId = _configuration.SubMerchantId,
                 Passcode = _configuration.ProfilesApiPasscode,
-                WebCommandExecutor = _webCommandExecuter
+                WebCommandExecutor = _webCommandExecutor
             };
         }
     }

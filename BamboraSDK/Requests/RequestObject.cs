@@ -22,6 +22,7 @@
 //
 
 using System;
+using System.Net.Http;
 
 namespace Bambora.NA.SDK.Requests
 {

@@ -25,8 +25,11 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using Bambora.NA.SDK.Data;
+using Bambora.NA.SDK.Domain;
 using Bambora.NA.SDK.Exceptions;
+using Newtonsoft.Json;
 /// <summary>
 /// Creates the actual web request and returns the response object.
 /// It requires a merchantID and passcode to connect to the Bambora REST API.
@@ -41,7 +44,7 @@ namespace Bambora.NA.SDK.Requests
         private string _merchantId;
         private string _subMerchantId;
         private string _passcode;
-        private IWebCommandExecuter _executer = new WebCommandExecuter();
+        private IWebCommandExecutor _executor = new WebCommandExecutor();
 
         public int MerchantId
         {
@@ -58,17 +61,12 @@ namespace Bambora.NA.SDK.Requests
             set => _passcode = value;
         }
 
-        public IWebCommandExecuter WebCommandExecutor
+        public IWebCommandExecutor WebCommandExecutor
         {
-            set => _executer = value;
+            set => _executor = value;
         }
 
-        public string ProcessTransaction(HttpMethod method, string url)
-        {
-            return ProcessTransaction(method, url, null);
-        }
-
-        public string ProcessTransaction(HttpMethod method, string url, object data)
+        public string ProcessTransaction(HttpMethod method, string url, object data = null)
         {
             try
             {
@@ -84,109 +82,72 @@ namespace Bambora.NA.SDK.Requests
                 var requestInfo = new RequestObject(method, url, authInfo, _subMerchantId, data);
 
                 var command = new ExecuteWebRequest(requestInfo);
-                var result = _executer.ExecuteCommand(command);
+                var result = _executor.ExecuteCommand(command);
+                if (!IsSuccessStatusCode(result.ReturnValue))
+                {
+                    throw BamboraApiException(result);
+                }
 
                 return result.Response;
             }
-            catch (WebException ex) //catch web command exception
+            catch (HttpRequestException ex) //catch web command exception
             {
-                if (ex.Status != WebExceptionStatus.ProtocolError)
-                {
-                    throw;
-                }
-
-                throw BamboraApiException(ex);
+                throw new CommunicationException("Could not process the request successfully", ex);
             }
         }
 
-        private static Exception BamboraApiException(WebException webEx)
+        private static Exception BamboraApiException(WebCommandResult<string> result)
         {
-            var response = webEx.Response as HttpWebResponse;
+            var statusCode = (HttpStatusCode)result.ReturnValue;
+            var data = result.Response; //Get from exception
 
-            if (response == null)
-            {
-                return new CommunicationException("Could not process the request succesfully", webEx);
-            }
-
-            var statusCode = response.StatusCode;
-            var data = GetResponseBody(response); //Get from exception
-
-            var code = -1;
-            var category = -1;
-            var message = "";
+            var errorData = new ErrorData();
             if (data != null)
             {
-                if (response.ContentType.Contains("application/json"))
+                try
                 {
-                    try
-                    {
-                        JToken json = JObject.Parse(data);
-                        if (json != null && json.SelectToken("code") != null)
-                        {
-                            code = Convert.ToInt32(json.SelectToken("code"));
-                        }
-
-                        if (json != null && json.SelectToken("category") != null)
-                        {
-                            category = Convert.ToInt32(json.SelectToken("category"));
-                        }
-
-                        if (json != null && json.SelectToken("message") != null)
-                        {
-                            message = json.SelectToken("message").ToString();
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        // data is not json and not in the format we expect
-                    }
+                    errorData = JsonConvert.DeserializeObject<ErrorData>(data);
+                }
+                catch (Exception)
+                {
+                    // data is not json and not in the format we expect
                 }
             }
 
             switch (statusCode)
             {
                 case HttpStatusCode.Found: // 302
-                    return new RedirectionException(statusCode, data, message, category, code); // Used for redirection response in 3DS, Masterpass and Interac Online requests
+                    return new RedirectionException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // Used for redirection response in 3DS, Masterpass and Interac Online requests
 
                 case HttpStatusCode.BadRequest: // 400
-                    return new InvalidRequestException(statusCode, data, message, category, code); // Often missing a required parameter
+                    return new InvalidRequestException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // Often missing a required parameter
 
                 case HttpStatusCode.Unauthorized: // 401
-                    return new UnauthorizedException(statusCode, data, message, category, code); // authentication exception
+                    return new UnauthorizedException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // authentication exception
 
                 case HttpStatusCode.PaymentRequired: // 402
-                    return new BusinessRuleException(statusCode, data, message, category, code); // Request failed business requirements or rejected by processor/bank
+                    return new BusinessRuleException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // Request failed business requirements or rejected by processor/bank
 
                 case HttpStatusCode.Forbidden: // 403
-                    return new ForbiddenException(statusCode, data, message, category, code); // authorization failure
+                    return new ForbiddenException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // authorization failure
 
                 case HttpStatusCode.NotFound: // 404
-                    return new NotFoundException(statusCode, data, message, category, code); // item(s) not found
+                    return new NotFoundException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // item(s) not found
 
                 case HttpStatusCode.MethodNotAllowed: // 405
-                    return new InvalidRequestException(statusCode, data, message, category, code); // Sending the wrong HTTP Method
+                    return new InvalidRequestException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // Sending the wrong HTTP Method
 
                 case HttpStatusCode.UnsupportedMediaType: // 415
-                    return new InvalidRequestException(statusCode, data, message, category, code); // Sending an incorrect Content-Type
+                    return new InvalidRequestException(statusCode, data, errorData.Message, errorData.Category, errorData.Code); // Sending an incorrect Content-Type
 
                 default:
-                    return new InternalServerException(statusCode, data, message, category, code);
+                    return new InternalServerException(statusCode, data, errorData.Message, errorData.Category, errorData.Code);
             }
         }
 
-        private static string GetResponseBody(WebResponse response)
+        private static bool IsSuccessStatusCode(int statusCode)
         {
-            var stream = response.GetResponseStream();
-
-            if (stream == null)
-            {
-                throw new Exception("Could not get a response from Bambora API");
-            }
-
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            return statusCode is >= 200 and < 300;
         }
     }
 }

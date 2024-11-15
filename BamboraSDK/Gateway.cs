@@ -101,7 +101,7 @@ namespace Bambora.NA.SDK
 
         public Configuration Configuration => _configuration ?? (_configuration = new Configuration());
 
-        public IWebCommandExecuter WebCommandExecuter { get; set; }
+        public IWebCommandExecutor WebCommandExecutor { get; set; }
 
         private PaymentsAPI _payments;
 
@@ -115,9 +115,9 @@ namespace Bambora.NA.SDK
                 }
 
                 _payments.Configuration = Configuration;
-                if (WebCommandExecuter != null)
+                if (WebCommandExecutor != null)
                 {
-                    _payments.WebCommandExecuter = WebCommandExecuter;
+                    _payments.WebCommandExecutor = WebCommandExecutor;
                 }
 
                 return _payments;
@@ -137,9 +137,9 @@ namespace Bambora.NA.SDK
                 }
 
                 _reporting.Configuration = Configuration;
-                if (WebCommandExecuter != null)
+                if (WebCommandExecutor != null)
                 {
-                    _reporting.WebCommandExecuter = WebCommandExecuter;
+                    _reporting.WebCommandExecutor = WebCommandExecutor;
                 }
 
                 return _reporting;
@@ -159,9 +159,9 @@ namespace Bambora.NA.SDK
                 }
 
                 _profiles.Configuration = Configuration;
-                if (WebCommandExecuter != null)
+                if (WebCommandExecutor != null)
                 {
-                    _profiles.WebCommandExecuter = WebCommandExecuter;
+                    _profiles.WebCommandExecutor = WebCommandExecutor;
                 }
 
                 return _profiles;

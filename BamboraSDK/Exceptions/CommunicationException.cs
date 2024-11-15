@@ -25,7 +25,7 @@ using System;
 
 namespace Bambora.NA.SDK.Exceptions
 {
-    public class CommunicationException : Exception
+    public class CommunicationException : BamboraException
     {
         public CommunicationException(string message, Exception exception)
             : base(message, exception)

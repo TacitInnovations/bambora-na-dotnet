@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 //
 
-using System;
-using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Bambora.NA.SDK.Data
 {
@@ -31,24 +31,19 @@ namespace Bambora.NA.SDK.Data
     /// This lives so we can create mock objects for unit testing.
     /// </summary>
     /// <typeparam name="T">The type representing the response from the request.</typeparam>
-    public interface IWebCommandSpec<out T>
+    public interface IWebCommandSpec<T>
     {
-        /// <summary>
-        /// The URL of the web command.
-        /// </summary>
-        Uri Url { get; }
-
         /// <summary>
         /// Prepares the web request for executing.
         /// </summary>
         /// <param name="request">The request to prepare.</param>
-        void PrepareRequest(WebRequest request);
+        void PrepareRequest(HttpRequestMessage request);
 
         /// <summary>
         /// Maps the web response to an instance of type {T}.
         /// </summary>
         /// <param name="response">The response to map.</param>
         /// <returns>An instance of type {T} representing the data from the web response.</returns>
-        T MapResponse(WebResponse response);
+        Task<T> MapResponseAsync(HttpResponseMessage response);
     }
 }
