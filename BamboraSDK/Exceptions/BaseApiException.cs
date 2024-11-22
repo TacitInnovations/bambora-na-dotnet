@@ -50,7 +50,7 @@ using System.Net;
 /// </summary>
 namespace Bambora.NA.SDK.Exceptions
 {
-    public abstract class BaseApiException : Exception
+    public abstract class BaseApiException : BamboraException
     {
         protected BaseApiException(HttpStatusCode statusCode, string response, string message, int category, int code)
             : base(statusCode + ", category: " + category + ", code: " + code + ":    " + message)

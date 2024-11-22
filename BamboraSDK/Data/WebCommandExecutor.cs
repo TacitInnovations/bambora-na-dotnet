@@ -23,6 +23,9 @@
 
 using System;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Bambora.NA.SDK.Exceptions;
 
 
 namespace Bambora.NA.SDK.Data
@@ -32,14 +35,30 @@ namespace Bambora.NA.SDK.Data
     /// (which does the heavy lifting of the actual request) so that we can plug in
     /// mock responses for unit testing.
     /// </summary>
-    public class WebCommandExecuter : IWebCommandExecuter
+    public class WebCommandExecutor : IWebCommandExecutor
     {
-        public WebCommandExecuter()
+        private readonly Func<HttpClient> _httpClientFactory;
+        private readonly Lazy<HttpClient> _httpClient = new(() => new HttpClient());
+
+        public WebCommandExecutor(Func<HttpClient> httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
+        public WebCommandExecutor()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            _httpClientFactory = GetHttpClient;
         }
 
         public WebCommandResult<T> ExecuteCommand<T>(IWebCommandSpec<T> spec)
+        {
+            return ExecuteCommandAsync(spec)
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        private async Task<WebCommandResult<T>> ExecuteCommandAsync<T>(IWebCommandSpec<T> spec)
         {
             if (spec == null)
             {
@@ -47,26 +66,24 @@ namespace Bambora.NA.SDK.Data
             }
 
             var result = new WebCommandResult<T>();
-            var request = WebRequest.Create(spec.Url);
 
+            var client = _httpClientFactory();
+            var request = new HttpRequestMessage();
             spec.PrepareRequest(request);
-
-            using (var response = request.GetResponse() as HttpWebResponse)
+            var response = await client.SendAsync(request)
+                .ConfigureAwait(false);
+            if (response == null)
             {
-                if (response == null)
-                {
-                    throw new Exception("Could not get a response from Bambora API");
-                }
-
-                result.ReturnValue = (int)response.StatusCode;
-
-                if (response.StatusCode == (HttpStatusCode)200)
-                {
-                    result.Response = spec.MapResponse(response);
-                }
+                throw new BamboraException("Could not get a response from Bambora API");
             }
+
+            result.ReturnValue = (int)response.StatusCode;
+            result.Response = await spec.MapResponseAsync(response)
+                .ConfigureAwait(false);
 
             return result;
         }
+
+        private HttpClient GetHttpClient() => _httpClient.Value;
     }
 }

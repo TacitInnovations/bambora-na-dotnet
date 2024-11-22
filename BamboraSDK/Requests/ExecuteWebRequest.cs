@@ -23,15 +23,25 @@
 
 using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Bambora.NA.SDK.Data;
+using Bambora.NA.SDK.Exceptions;
 
 namespace Bambora.NA.SDK.Requests
 {
     public class ExecuteWebRequest : IWebCommandSpec<string>
     {
+        private static readonly Encoding Encoding = Encoding.UTF8;
+        
+        private static readonly JsonSerializerSettings SerializerSettings = new()
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+        
         private readonly RequestObject _requestObject;
 
         public ExecuteWebRequest(RequestObject requestObject)
@@ -42,14 +52,15 @@ namespace Bambora.NA.SDK.Requests
 
         public Uri Url { get; }
 
-        public void PrepareRequest(WebRequest request)
+        public void PrepareRequest(HttpRequestMessage httpRequest)
         {
-            if (!(request is HttpWebRequest httpRequest))
+            if (httpRequest is null)
             {
-                throw new InvalidOperationException("URL AuthType not supported: " + Url.Scheme);
+                throw new BamboraException("URL AuthType not supported: " + Url.Scheme);
             }
 
-            httpRequest.Method = _requestObject.Method.ToString().ToUpper();
+            httpRequest.Method = _requestObject.Method;
+            httpRequest.RequestUri = Url;
             if (_requestObject.Credentials != null) // we might use this for a no auth connection
             {
                 httpRequest.Headers.Add("Authorization", GetAuthorizationHeaderString(_requestObject.Credentials));
@@ -60,51 +71,44 @@ namespace Bambora.NA.SDK.Requests
                 httpRequest.Headers.Add("Sub-Merchant-Id", _requestObject.SubMerchantId);
             }
 
-            httpRequest.ContentType = "application/json";
-
             if (_requestObject.Data != null)
             {
-                var data = JsonConvert.SerializeObject(
+                var requestBody = JsonConvert.SerializeObject(
                     _requestObject.Data,
-                    Formatting.Indented,
-                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore } // ignore null values
+                    SerializerSettings
                 );
-
-                using (var writer = new StreamWriter(request.GetRequestStream()))
-                {
-                    writer.Write(data);
-                }
+                httpRequest.Content = new StringContent(requestBody, Encoding, "application/json");
             }
         }
 
-        public string MapResponse(WebResponse response)
+        public async Task<string> MapResponseAsync(HttpResponseMessage response)
         {
             if (response == null)
             {
-                throw new Exception("Could not get a response from Bambora API");
+                throw new BamboraException("Could not get a response from Bambora API");
             }
 
-            return GetResponseBody(response);
+            return await GetResponseBodyAsync(response.Content)
+                .ConfigureAwait(false);
         }
 
-        private static string GetResponseBody(WebResponse response)
+        private static async Task<string> GetResponseBodyAsync(HttpContent content)
         {
-            var stream = response.GetResponseStream();
-
+            var stream = await content.ReadAsStreamAsync()
+                .ConfigureAwait(false);
             if (stream == null)
             {
-                throw new Exception("Could not get a response from Bambora API");
+                throw new BamboraException("Could not get a response from Bambora API");
             }
 
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(stream, Encoding, true, 1024, leaveOpen: true);
+            return await reader.ReadToEndAsync()
+                .ConfigureAwait(false);
         }
 
         private static string GetAuthorizationHeaderString(Credentials credentials)
         {
-            var plainAuth = Encoding.UTF8.GetBytes($"{credentials.Username}:{credentials.Password}");
+            var plainAuth = Encoding.GetBytes($"{credentials.Username}:{credentials.Password}");
             var base64Auth = Convert.ToBase64String(plainAuth);
 
             return $"{credentials.AuthScheme} {base64Auth}";

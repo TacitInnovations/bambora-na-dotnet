@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 //
 
+using Bambora.NA.SDK.Domain;
 using Newtonsoft.Json;
 
 namespace Bambora.NA.SDK
@@ -35,6 +36,9 @@ namespace Bambora.NA.SDK
 
         [JsonProperty(PropertyName = "complete")]
         public bool Complete { get; set; }
+
+        [JsonProperty(PropertyName = "3d_secure")]
+        public ThreeDSDataField ThreeDSData { get; set; }
 
         public PaymentProfileField()
         {

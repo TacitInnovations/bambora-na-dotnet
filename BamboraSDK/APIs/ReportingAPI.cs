@@ -26,22 +26,23 @@ using Bambora.NA.SDK.Data;
 using Bambora.NA.SDK.Requests;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Bambora.NA.SDK
 {
     public class ReportingAPI
     {
         private Configuration _configuration;
-        private IWebCommandExecuter _webCommandExecuter = new WebCommandExecuter();
+        private IWebCommandExecutor _webCommandExecutor = new WebCommandExecutor();
 
         public Configuration Configuration
         {
             set => _configuration = value;
         }
 
-        public IWebCommandExecuter WebCommandExecuter
+        public IWebCommandExecutor WebCommandExecutor
         {
-            set => _webCommandExecuter = value;
+            set => _webCommandExecutor = value;
         }
 
         public Transaction GetTransaction(string paymentId)
@@ -118,7 +119,7 @@ namespace Bambora.NA.SDK
                 MerchantId = _configuration.MerchantId,
                 SubMerchantId = _configuration.SubMerchantId,
                 Passcode = _configuration.PaymentsApiPasscode,
-                WebCommandExecutor = _webCommandExecuter
+                WebCommandExecutor = _webCommandExecutor
             };
         }
 

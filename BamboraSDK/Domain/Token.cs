@@ -63,6 +63,9 @@ namespace Bambora.NA.SDK.Domain
         [JsonProperty(PropertyName = "function", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Function { get; set; }
 
+        [JsonProperty(PropertyName = "3d_secure")]
+        public ThreeDSDataField ThreeDSData { get; set; }
+
         public Token()
         {
             Complete = true;

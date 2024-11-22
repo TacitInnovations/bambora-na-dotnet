@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 //
 
+using Bambora.NA.SDK.Requests;
 using Newtonsoft.Json;
 
 /// <summary>
@@ -112,6 +113,9 @@ namespace Bambora.NA.SDK.Domain
         /// </summary>
         [JsonProperty(PropertyName = "cavv_result", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string CavvResult { get; set; }
+
+        [JsonProperty(PropertyName = "3d_secure")]
+        public ThreeDSDataField ThreeDSData { get; set; }
 
         public Card()
         {

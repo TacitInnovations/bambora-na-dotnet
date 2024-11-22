@@ -38,7 +38,7 @@ namespace Bambora.NA.SDK.Tests
 	public class WhenPreAuthACardPayment
 	{
 		private CardPaymentRequest _cardPaymentRequest;
-		private Mock<IWebCommandExecuter> _executer;
+		private Mock<IWebCommandExecutor> _executer;
         private Gateway _bambora;
 
         [SetUp]
@@ -56,7 +56,7 @@ namespace Bambora.NA.SDK.Tests
 				}
 			};
 
-			_executer = new Mock<IWebCommandExecuter>();
+			_executer = new Mock<IWebCommandExecutor>();
 
             _bambora = new Gateway()
             {
@@ -76,7 +76,7 @@ namespace Bambora.NA.SDK.Tests
 
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>())).Returns(webresult);
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			PaymentResponse response = _bambora.Payments.PreAuth (_cardPaymentRequest);
@@ -93,7 +93,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new ArgumentNullException());
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (ArgumentNullException)Assert.Throws(typeof(ArgumentNullException),
@@ -110,7 +110,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new ForbiddenException(HttpStatusCode.Forbidden, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (ForbiddenException)Assert.Throws(typeof(ForbiddenException),
@@ -127,7 +127,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new UnauthorizedException(HttpStatusCode.Unauthorized, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (UnauthorizedException)Assert.Throws(typeof(UnauthorizedException),
@@ -144,7 +144,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new BusinessRuleException(HttpStatusCode.PaymentRequired, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (BusinessRuleException)Assert.Throws(typeof(BusinessRuleException),
@@ -161,7 +161,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new InvalidRequestException(HttpStatusCode.PaymentRequired, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (InvalidRequestException)Assert.Throws(typeof(InvalidRequestException),
@@ -178,7 +178,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new RedirectionException(HttpStatusCode.Redirect, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 
 			// Act
@@ -196,7 +196,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new InternalServerException(HttpStatusCode.InternalServerError, "", "", 1, 0));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 
 			// Act
@@ -214,7 +214,7 @@ namespace Bambora.NA.SDK.Tests
 			_executer.Setup(e => e.ExecuteCommand(It.IsAny<ExecuteWebRequest>()))
 				.Throws(new CommunicationException("API exception occured", null));
 
-			_bambora.WebCommandExecuter = _executer.Object;
+			_bambora.WebCommandExecutor = _executer.Object;
 
 			// Act
 			var ex = (CommunicationException)Assert.Throws(typeof(CommunicationException),

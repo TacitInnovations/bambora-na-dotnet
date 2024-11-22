@@ -28,6 +28,7 @@ using Bambora.NA.SDK.Exceptions;
 using Newtonsoft.Json;
 using Bambora.NA.SDK.Domain;
 using System.Collections.Generic;
+using System.Net.Http;
 using NUnit.Framework;
 
 /**
@@ -283,8 +284,8 @@ namespace Bambora.NA.SDK.Tests
 
 			var requestInfo = new RequestObject(HttpMethod.Post, url, null, data);
 			var command = new ExecuteWebRequest (requestInfo);
-			WebCommandExecuter executer = new WebCommandExecuter ();
-			var result = executer.ExecuteCommand (command);
+			WebCommandExecutor executor = new WebCommandExecutor ();
+			var result = executor.ExecuteCommand (command);
 
 			LegatoTokenResponse token = JsonConvert.DeserializeObject<LegatoTokenResponse>(result.Response);
 			Console.WriteLine ("legato token: " + token.Token);
@@ -493,8 +494,8 @@ namespace Bambora.NA.SDK.Tests
 
 			var requestInfo = new RequestObject(HttpMethod.Post, url, null, data);
 			var command = new ExecuteWebRequest (requestInfo);
-			WebCommandExecuter executer = new WebCommandExecuter ();
-			var result = executer.ExecuteCommand (command);
+			WebCommandExecutor executor = new WebCommandExecutor ();
+			var result = executor.ExecuteCommand (command);
 
 			LegatoTokenResponse token = JsonConvert.DeserializeObject<LegatoTokenResponse>(result.Response);
 			Console.WriteLine ("Retrieved Legato Token: "+token.Token);
@@ -748,8 +749,8 @@ namespace Bambora.NA.SDK.Tests
 
 			var requestInfo = new RequestObject(HttpMethod.Post, url, null, data);
 			var command = new ExecuteWebRequest (requestInfo);
-			WebCommandExecuter executer = new WebCommandExecuter ();
-			var result = executer.ExecuteCommand (command);
+			WebCommandExecutor executor = new WebCommandExecutor ();
+			var result = executor.ExecuteCommand (command);
 
 			LegatoTokenResponse token = JsonConvert.DeserializeObject<LegatoTokenResponse>(result.Response);
 
