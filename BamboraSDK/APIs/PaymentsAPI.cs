@@ -281,6 +281,16 @@ namespace Bambora.NA.SDK
             return PreAuthInternal(paymentRequest);
         }
 
+        public PaymentResponse PreAuth(ThreeDSTokenRequest paymentRequest)
+        {
+            Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
+            Gateway.ThrowIfNullArgument(paymentRequest.ThreeDSToken, "paymentRequest.ThreeDSToken");
+
+            paymentRequest.ThreeDSToken.Complete = false;
+
+            return PreAuthInternal(paymentRequest);
+        }
+
         public PaymentResponse PreAuth(PaymentRequest paymentRequest)
         {
             Gateway.ThrowIfNullArgument(paymentRequest, "paymentRequest");
